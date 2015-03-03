@@ -1,4 +1,14 @@
 var CountForm = React.createClass({
+  getInitialState: function () {
+    return {disabled: true};
+  },
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.count > 0) {
+      this.setState({disabled: false});
+    } else {
+      this.setState({disabled: true});
+    }
+  },
   clickCountUp: function() {
     this.props.handleCount(1);
   },
@@ -9,7 +19,7 @@ var CountForm = React.createClass({
     return (
       <div className="countForm">
         <button onClick={this.clickCountUp}>Up</button>
-        <button disabled={this.props.disabled} onClick={this.clickCountDown}>Down</button>
+        <button disabled={this.state.disabled} onClick={this.clickCountDown}>Down</button>
       </div>
     );
   }
@@ -17,44 +27,21 @@ var CountForm = React.createClass({
 
 var Counter = React.createClass({
   getInitialState: function() {
-    return {
-      count: 0,
-      disabled: true
-    };
+    return {count: 0};
+  },
+  addable: function() {
+    n > 0 || (n < 0 && this.state.count > 0)
   },
   changeCount: function(n) {
-    if (n > 0) {
-      this.setState(
-        {
-          count: this.state.count + n,
-          disabled: false
-        }
-      );
-    } else {
-      if (this.state.count > 0) {
-        if (this.state.count == 1) {
-          this.setState(
-            {
-              count: this.state.count + n,
-              disabled: true
-            }
-          );
-        } else {
-          this.setState(
-            {
-              count: this.state.count + n,
-              disabled: false
-            }
-          );
-        }
-      }
+    if (this.addable) {
+      this.setState({count: this.state.count + n});
     }
   },
   render: function() {
     return (
       <div className="counter">
         {this.state.count}
-        <CountForm disabled={this.state.disabled} count={this.state.count} handleCount={this.changeCount} />
+        <CountForm count={this.state.count} handleCount={this.changeCount} />
       </div>
     );
   }
