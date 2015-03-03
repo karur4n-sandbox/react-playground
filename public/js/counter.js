@@ -9,7 +9,7 @@ var CountForm = React.createClass({
     return (
       <div className="countForm">
         <button onClick={this.clickCountUp}>Up</button>
-        <button onClick={this.clickCountDown}>Down</button>
+        <button disabled={this.props.disabled} onClick={this.clickCountDown}>Down</button>
       </div>
     );
   }
@@ -17,18 +17,44 @@ var CountForm = React.createClass({
 
 var Counter = React.createClass({
   getInitialState: function() {
-    return {count: 0};
+    return {
+      count: 0,
+      disabled: true
+    };
   },
   changeCount: function(n) {
-    if (this.state.count > 0 || (n >= 0 && this.state.count >= 0)) {
-      this.setState({count: this.state.count + n});
+    if (n > 0) {
+      this.setState(
+        {
+          count: this.state.count + n,
+          disabled: false
+        }
+      );
+    } else {
+      if (this.state.count > 0) {
+        if (this.state.count == 1) {
+          this.setState(
+            {
+              count: this.state.count + n,
+              disabled: true
+            }
+          );
+        } else {
+          this.setState(
+            {
+              count: this.state.count + n,
+              disabled: false
+            }
+          );
+        }
+      }
     }
   },
   render: function() {
     return (
       <div className="counter">
         {this.state.count}
-        <CountForm handleCount={this.changeCount} />
+        <CountForm disabled={this.state.disabled} count={this.state.count} handleCount={this.changeCount} />
       </div>
     );
   }
