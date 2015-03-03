@@ -3,6 +3,8 @@ var CountForm = React.createClass({
     return {disabled: true};
   },
   componentWillReceiveProps: function(nextProps) {
+    console.log('this.props: '+ this.props.count);
+    console.log('next props: '+ nextProps.count);
     if (nextProps.count > 0) {
       this.setState({disabled: false});
     } else {
