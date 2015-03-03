@@ -1,3 +1,19 @@
+var CountNum = React.createClass({
+  getInitialState: function() {
+    return {count: this.props.count};
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({count: nextProps.count});
+  },
+  render: function() {
+    return (
+      <div className="countNum">
+        {this.state.count}
+      </div>
+    );
+  }
+});
+
 var CountForm = React.createClass({
   getInitialState: function () {
     return {disabled: true};
@@ -29,7 +45,7 @@ var CountForm = React.createClass({
 
 var Counter = React.createClass({
   getInitialState: function() {
-    return {count: 0};
+    return {count: this.props.initialCount};
   },
   addable: function() {
     n > 0 || (n < 0 && this.state.count > 0)
@@ -42,7 +58,7 @@ var Counter = React.createClass({
   render: function() {
     return (
       <div className="counter">
-        {this.state.count}
+        <CountNum count={this.state.count} />
         <CountForm count={this.state.count} handleCount={this.changeCount} />
       </div>
     );
@@ -50,6 +66,6 @@ var Counter = React.createClass({
 });
 
 React.render(
-  <Counter />,
+  <Counter initialCount={0} />,
   document.getElementById('content')
 );
