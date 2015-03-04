@@ -1,14 +1,8 @@
 var CountNum = React.createClass({
-  getInitialState: function() {
-    return {count: this.props.count};
-  },
-  componentWillReceiveProps: function(nextProps) {
-    this.setState({count: nextProps.count});
-  },
   render: function() {
     return (
       <div className="countNum">
-        {this.state.count}
+        {this.props.count}
       </div>
     );
   }
